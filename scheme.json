@@ -1,0 +1,13 @@
+{
+	"user":[
+	{
+		"name":"yujilow1220"
+	}
+	],
+	"post":[
+		{"text":"aaa", "author":"yujilow1220","postedAt":"now"}
+	],
+	"tag":[
+		{"id":1, "text":"test", "parent":0}
+	]
+}
