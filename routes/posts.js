@@ -17,6 +17,20 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.get('/all/:num', function(req,res,next){
+  var num = req.params['num'];
+
+  db.Post.find({}, {}, {sort: {postedAt: -1}, limit:num*10}, function(err, docs){
+
+    if(docs.length > 10){
+      var results = docs.slice(docs.length-11, docs.length-1);
+    }else{
+      var results = docs;
+    }
+    res.send(results);
+  });
+});
+
 router.get('/tag/:tag', function(req, res, next){
   var tag = req.params['tag'];
   console.log(tag)
