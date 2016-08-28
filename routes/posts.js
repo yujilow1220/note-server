@@ -19,29 +19,23 @@ router.get('/', function(req, res, next) {
 
 router.get('/all/:num', function(req,res,next){
   var num = req.params['num'];
-
   db.Post.find({}, {}, {sort: {postedAt: -1}, limit:num*10}, function(err, docs){
-
-    if(docs.length > 10){
-      var results = docs.slice(docs.length-11, docs.length-1);
-    }else{
-      var results = docs;
-    }
-    res.send(results);
-  });
+    fit_send(res, docs);
+  })
 });
 
-router.get('/tag/:tag', function(req, res, next){
+router.get('/tag/:tag/:num', function(req, res, next){
   var tag = req.params['tag'];
+  var num = req.params['num'] || 0;
   console.log(tag)
   db.Tag.findOne({text:tag}, {}, function(err,doc){
-    db.Post.find({tags:doc}, {}, function(err,docs){
-      console.log(err)
+    console.log(doc)
+    db.Post.find({tags:doc}, {},{sort: {postedAt: -1}, limit:num*10}, function(err,docs){
+      console.log('-------docs---------');
       console.log(docs);
-      res.send(docs);
+      fit_send(res, docs);
     })
   })
-
 });
 
 router.post('/', function(req, res, next){
@@ -90,3 +84,11 @@ router.get('/test', function(req,res,next){
 });
 
 module.exports = router;
+function fit_send(res, docs){
+  if(docs.length > 10){
+    var results = docs.slice(docs.length-11, docs.length-1);
+  }else{
+    var results = docs;
+  }
+  res.send(results);
+}
