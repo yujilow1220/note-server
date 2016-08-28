@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/all/:num', function(req,res,next){
   var num = req.params['num'];
-  db.Post.find({}, {}, {sort: {postedAt: -1}, limit:num*10}, function(err, docs){
+  db.Post.find({}, {}, {sort: {postedAt: -1}, limit:num*10}).populate('tags').exec(function(err, docs){
     fit_send(res, docs);
   })
 });
@@ -30,7 +30,7 @@ router.get('/tag/:tag/:num', function(req, res, next){
   console.log(tag)
   db.Tag.findOne({text:tag}, {}, function(err,doc){
     console.log(doc)
-    db.Post.find({tags:doc}, {},{sort: {postedAt: -1}, limit:num*10}, function(err,docs){
+    db.Post.find({tags:doc}, {},{sort: {postedAt: -1}, limit:num*10}).populate('tags').exec(function(err,docs){
       console.log('-------docs---------');
       console.log(docs);
       fit_send(res, docs);
@@ -83,8 +83,8 @@ router.get('/test', function(req,res,next){
   // var post = new db.Post;
   // post.text = 'aaa';
   // post.save();
-  db.Post.find({}, {}, function(err,doc){
-      res.send(doc[doc.length-1].tags[0]);
+  db.Post.remove({}, {}, function(err,doc){
+      res.send("ok");
   });
 
 });
