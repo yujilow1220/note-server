@@ -44,10 +44,13 @@ router.post('/', function(req, res, next){
 
   if(req.body.tag){
       db.Tag.findOne({text:req.body.tag},{},{},function(err,docs){
+        //tagが存在しない場合
         if(!docs){
           var tag = new db.Tag;
           tag.text = req.body.tag;
+          tag.updatedAt = Date.now();
           tag.save(function(err,tag){
+            console.log(tag)
             post.tags.push(tag);
             post.save(function(err,data){
               console.log(data);
@@ -58,6 +61,9 @@ router.post('/', function(req, res, next){
           post.tags.push(docs);
           post.save(function(err,data){
             console.log(data);
+            docs.updatedAt = Date.now();
+            console.log(docs)
+            docs.save();
             res.send(data);
           });
         }
