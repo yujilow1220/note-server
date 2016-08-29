@@ -17,10 +17,14 @@ router.get('/', function(req, res, next) {
 
 });
 
+/**
+TODO: num実装は、最後にたどり着いたらからの配列を出すようにしたい。
+*/
+
 router.get('/all/:num', function(req,res,next){
   var num = req.params['num'];
-  db.Post.find({}, {}, {sort: {postedAt: -1}, limit:num*10}).populate('tags').exec(function(err, docs){
-    fit_send(res, docs);
+  db.Post.find({}, {}, {sort: {postedAt: -1}, limit:10, skip:num*10}).populate('tags').exec(function(err, docs){
+    res.send(docs);
   })
 });
 
@@ -30,10 +34,8 @@ router.get('/tag/:tag/:num', function(req, res, next){
   console.log(tag)
   db.Tag.findOne({text:tag}, {}, function(err,doc){
     console.log(doc)
-    db.Post.find({tags:doc}, {},{sort: {postedAt: -1}, limit:num*10}).populate('tags').exec(function(err,docs){
-      console.log('-------docs---------');
-      console.log(docs);
-      fit_send(res, docs);
+    db.Post.find({tags:doc}, {},{sort: {postedAt: -1}, limit:10, skip:num*10}).populate('tags').exec(function(err,docs){
+      res.send(docs);
     })
   })
 });
