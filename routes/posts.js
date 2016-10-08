@@ -84,7 +84,7 @@ router.post('/', function(req, res, next){
 router.get('/search/:query', function(req, res, next){
   var query = req.params['query'];
   var reg_query = new RegExp( ".*"+query+".*");
-  db.Post.find({text:reg_query},{},{sort: {postedAt: -1}}, function(err, docs){
+  db.Post.find({text:reg_query},{},{sort: {postedAt: -1}}).populate('tags').exec(function(err, docs){
     res.send(docs);
   });
 });
