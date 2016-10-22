@@ -1,0 +1,36 @@
+.margintop{
+ margin-top: 60px;
+}
+
+.body{
+  padding:20px;
+}
+
+.description{
+  word-wrap: break-word;
+}
+
+.blue {
+  color: #4285F4;
+  margin-right: 10px;
+}
+.blue > path { fill: currentColor; }
+
+.ui.card, .ui.cards>.card{
+  width:100%;
+}
+
+.tags {
+  width:100px;
+  margin-left:20px;
+}
+
+.functions {
+  height:25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.check {
+  height:25px;
+}
