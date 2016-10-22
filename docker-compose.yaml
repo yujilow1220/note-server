@@ -1,0 +1,12 @@
+app:
+  image: yujilow1220/note-server
+  restart: always
+  links:
+    - notedb
+  ports:
+    - 3030:3000
+
+notedb:
+   image: mongo
+   volumes:
+    - /var/lib/note-server/data
