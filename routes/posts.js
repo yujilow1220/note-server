@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../lib/db');
+var todo = require('../lib/todo');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -52,20 +53,18 @@ router.post('/', function(req, res, next){
           tag.text = req.body.tag;
           tag.updatedAt = Date.now();
           tag.save(function(err,tag){
-            console.log(tag)
             post.tags.push(tag);
             post.save(function(err,data){
-              console.log(data);
+              todo.send(data);
               res.send(data);
             })
           });
         }else{
           post.tags.push(docs);
           post.save(function(err,data){
-            console.log(data);
             docs.updatedAt = Date.now();
-            console.log(docs)
             docs.save();
+            todo.send(data);
             res.send(data);
           });
         }

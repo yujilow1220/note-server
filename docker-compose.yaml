@@ -3,10 +3,39 @@ app:
   restart: always
   links:
     - notedb
+    # - redmine
+  environment:
+    - TODO_HOST=redmine
+    - TODO_USERNAME=headless
+    - TODO_PASSWORD=headless
+    - TODO_APIKEY=sdfasdfewibnoidsafkuqwe
   ports:
     - 3030:3000
 
+wekan:
+  image: mquandalle/wekan
+  restart: always
+  links:
+    - notedb
+  environment:
+    - MONGO_URL=mongodb://notedb/wekan
+    - ROOT_URL=http://localhost:8081
+  ports:
+    - 8081:80
+
+# redmine:
+#   image:
+#   restart: always
+#   links:
+#     - mariadb
+#   environment:
+#     -
+#     -
+#   ports:
+#
 notedb:
    image: mongo
+   ports:
+    - 27107:27107
    volumes:
-    - /var/lib/note-server/data
+    - /Users/owner/dev/utils/docker/wekan/data:/data/db
