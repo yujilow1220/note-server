@@ -9,6 +9,8 @@ app:
     - TODO_USERNAME=headless
     - TODO_PASSWORD=headless
     - TODO_APIKEY=d4a9a37be3bd2202f5a31389f2ca25d249221399
+  volumes:
+    - .:/usr/src/app
   ports:
     - 3030:3000
 

@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/store', function(req, res, next){
   var posts = req.body.posts;
-  console.log(req.body);
   db.sync(posts, function(){
       res.send("ok");
   });

@@ -1,0 +1,4 @@
+export TODO_HOST=redmine
+export TODO_USERNAME=headless
+export TODO_PASSWORD=headless
+export TODO_APIKEY=sdfasdfewibnoidsafkuqwe

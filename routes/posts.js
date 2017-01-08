@@ -32,9 +32,7 @@ router.get('/all/:num', function(req,res,next){
 router.get('/tag/:tag/:num', function(req, res, next){
   var tag = req.params['tag'];
   var num = req.params['num'] || 0;
-  console.log(tag)
   db.Tag.findOne({text:tag}, {}, function(err,doc){
-    console.log(doc)
     db.Post.find({tags:doc}, {},{sort: {postedAt: -1}, limit:10, skip:num*10}).populate('tags').exec(function(err,docs){
       res.send(docs);
     })
@@ -55,6 +53,8 @@ router.post('/', function(req, res, next){
           tag.save(function(err,tag){
             post.tags.push(tag);
             post.save(function(err,data){
+              console.log('starting sending to redmine');
+              console.log('1');
               todo.send(data);
               res.send(data);
             })
@@ -63,6 +63,8 @@ router.post('/', function(req, res, next){
           post.tags.push(docs);
           post.save(function(err,data){
             docs.updatedAt = Date.now();
+            console.log('starting sending to redmine');
+            console.log('2');
             docs.save();
             todo.send(data);
             res.send(data);
@@ -70,11 +72,12 @@ router.post('/', function(req, res, next){
         }
       });
   }
-
   else {
     post.tags.push(db.root);
     post.save(function(err,data){
-      console.log(data);
+      console.log('starting sending to redmine');
+      console.log('3');
+      todo.send(data);
       res.send(data);
     });
   }
